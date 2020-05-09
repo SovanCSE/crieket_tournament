@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+     {% if title %}
+      <title>Cricket App - {{title}}</title>
+    {% else %}
+       <title>Cricket App</title>
+    {% endif %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    {% block head_content %}
+
+    {% endblock head_content %}
+</head>
+<body>
+ <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+          <a class="navbar-brand mr-4" href="">Cricket Match History</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+              <a class="nav-item nav-link" href="{% url 'team_list' %}">Teams</a>
+              <a class="nav-item nav-link" href="{% url 'player_list' %}">Players</a>
+              <a class="nav-item nav-link" href="{% url 'match_list' %}">Matches</a>
+              <a class="nav-item nav-link" href="{% url 'points_table' %}">PointsTable</a>
+            </div>
+            <!-- Navbar Right Side -->
+<!--            <div class="navbar-nav">-->
+<!--                  <a class="nav-item nav-link" href="#">Login</a>-->
+<!--                  <a class="nav-item nav-link" href="#">Register</a>-->
+<!--            </div>-->
+          </div>
+        </div>
+      </nav>
+    </header>
+      <div class="m-3 p-3">
+          <button class="btn btn-primary mb-2" onclick="goBack()"><i
+                  class="fas fa-backward"></i>&nbsp;&nbsp;Go Back</button>
+
+            {% if messages %}
+                {% for message in messages %}
+                   <div class="alert alert-{{ message.tags }} message">
+                       {{ message }}
+                       <a href="#" class="del-msg">&times;</a>
+                   </div>
+                {% endfor %}
+            {% endif %}
+          {% block body_content %} {% endblock body_content %}
+
+<!--        <div class="col-md-4">-->
+<!--          <div class="content-section">-->
+<!--            <h3>Our Sidebar</h3>-->
+<!--            <p class='text-muted'>You can put any information here you'd like.-->
+<!--              <ul class="list-group">-->
+<!--                <li class="list-group-item list-group-item-light">Latest Posts</li>-->
+<!--                <li class="list-group-item list-group-item-light">Announcements</li>-->
+<!--                <li class="list-group-item list-group-item-light">Calendars</li>-->
+<!--                <li class="list-group-item list-group-item-light">etc</li>-->
+<!--              </ul>-->
+<!--            </p>-->
+<!--          </div>-->
+<!--        </div>-->
+</div>
+
+ <!-- Optional JavaScript -->
+ <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+ <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+ <script src="{% static 'js/custom_js_v1.js' %}"></script>
+ {% block boby_script_library %}
+
+ {% endblock boby_script_library %}
+<script>
+    $(document).ready(function() {
+        setTimeout(function() {
+            $('.message').hide();
+        }, 5000); // <-- time in milliseconds, 1000 =  1 sec
+
+        $('.del-msg').on('click',function(){
+            $('.del-msg').parent().attr('style', 'display:none;');
+        })
+    });
+</script>
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>
+</body>
+</html>

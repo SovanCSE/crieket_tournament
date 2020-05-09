@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block body_content %}
+  <div class="card">
+     <div class="card-header">
+       <div class="row">
+         <div class="col-md-6">
+           <h4>Match List</h4>
+         </div>
+         <div class="col-md-6">
+            <a title="Add New Match" data-toggle="tooltip" href="{% url 'add_match' %}"><button
+                    type="button"
+                                                    class="btn btn-info float-right"><i
+                 class="fas fa-plus"></i> Add
+              New</button></a>
+         </div>
+       </div>
+    </div>
+    {% if not match_list %}
+      <div class="card-body">
+          <div class="row text-center">
+              <div class="col-md-12">
+                  <span>No matches is avaliable for team
+                      <span class="font-weight-bold">{{team_name}}</span></span>
+              </div>
+          </div>
+      </div>
+    {% else %}
+    <div class="card-body">
+      <table class="table table-bordered table-hover">
+      <thead>
+        <tr >
+           <th scope="col">First Team</th>
+           <th scope="col">Second Team</th>
+            <th scope="col">Match Winner</th>
+            <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for match_info in match_list %}
+        {% if match_info.first_teamname.is_active and  match_info.second_teamname.is_active %}
+        <tr>
+           <td>{{match_info.first_teamname}}</td>
+            <td>{{match_info.second_teamname}}</td>
+            <td>{{match_info.match_winner}}</td>
+            <td>
+            <a class="edit" title="Edit" href="{% url 'update_match' pk=match_info.id %}"
+               data-toggle="tooltip"><i
+                    class="fas fa-edit">&nbsp&nbsp
+              &nbsp</i></a>
+            <a style="cursor:pointer" onclick="myFunction({{match_info.id}})" class="delete"
+               title="Delete" data-toggle="tooltip" ><i class="fas fa-trash"
+                                                        style="color:red"></i></a>
+           </td>
+        </tr>
+        {% endif %}
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+       <!-- Start point for pagination snippet code --->
+      {% if match_list.paginator.count > 3 %}
+      <div class="card-footer">
+          <div class="float-right">
+            {% with context_list=match_list %}
+              {% if context_list %}
+                 {% include 'common_views/pagination_tamplate.html' %}
+              {% endif %}
+            {% endwith %}
+          </div>
+      </div>
+      {% endif %}
+     <!-- End point for pagination snippet code --->
+      {% endif %}
+  </div>
+
+<!--Delete record modal-->
+{% include 'common_views/delete_modal_view.html' with delete_item='match record' %}
+{% endblock body_content %}

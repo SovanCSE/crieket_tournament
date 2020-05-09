@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block body_content %}
+<div class="container">
+  <div class="card">
+     <div class="card-header">
+       <div class="row">
+         <div class="col-md-6">
+           <h4>Team List</h4>
+         </div>
+         <div class="col-md-6">
+            <a title="Add New Team" data-toggle="tooltip"
+               href="{% url 'create_team' %}"><button type="button"
+                                                    class="btn btn-info float-right"><i
+                 class="fas fa-plus"></i> Add
+              New</button></a>
+         </div>
+       </div>
+    </div>
+    {% if not team_list %}
+      <div class="card-body">
+          <div class="row text-center">
+              <div class="col-md-12">
+                  <span>No item record is avaliable
+                      <span class="font-weight-bold">{{team_name}}</span></span>
+              </div>
+          </div>
+      </div>
+    {% else %}
+    <div class="card-body">
+      <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th scope="col"> Team Logo</th>
+          <th scope="col">Team Name</th>
+          <th scope="col" >Team Club State</th>
+          <th scope="col">View Match History</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for team in team_list %}
+       {% if team.is_active %}
+        <tr>
+          <td ><img  title="view image" data-toggle="tooltip"
+                     onclick="imageclick('{{ team.logo_url.url }}')" class="pop" alt="Team Logo"
+                     style="height:50px; max-weight:50px;cursor:pointer;"
+                     src="{{ team.logo_url.url }}"
+          /></td>
+          <td><a title="view players" data-toggle="tooltip" href="{% url 'retrieve_player' team_id=team.id %}">
+              {{team.name}}</a></td>
+          <td>{{team.club_state}}</td>
+          <td><a title="view matches" data-toggle="tooltip"
+                 href="{% url 'team_matches' team_id=team.id %}">View Macth history</a></td>
+          <td>
+            <a class="edit" title="Edit" href="/update-team/{{team.id}}/"
+               data-toggle="tooltip"><i
+                    class="fas fa-edit">&nbsp&nbsp
+              &nbsp</i></a>
+            <a style="cursor:pointer" onclick="myFunction({{team.id}})" class="delete"
+               title="Delete" data-toggle="tooltip" ><i class="fas fa-trash"
+                                                        style="color:red"></i></a>
+          </td>
+        </tr>
+      {% endif %}
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+      <!-- Start point for pagination snippet code --->
+      {% if team_list.paginator.count > 3 %}
+      <div class="card-footer">
+          <div class="float-right">
+            {% with context_list=team_list %}
+              {% if context_list %}
+                 {% include 'common_views/pagination_tamplate.html' %}
+              {% endif %}
+            {% endwith %}
+          </div>
+      </div>
+      {% endif %}
+     <!-- End point for pagination snippet code --->
+    {% endif %}
+  </div>
+</div>
+
+<!--Delete record modal-->
+{% include 'common_views/delete_modal_view.html' with delete_item='team' %}
+<!-- image zoom in Modal -->
+{% include 'common_views/zoomimage_modal_view.html' %}
+{% endblock body_content %}

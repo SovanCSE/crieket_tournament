@@ -1,0 +1,27 @@
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+      {% if context_list.has_previous %}
+        <li class="page-item">
+           <a class="page-link" href="?page=1" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+               <span class="sr-only"> <<< </span>
+            </a>
+         </li>
+      {% endif %}
+      {% for num in context_list.paginator.page_range %}
+        {% if context_list.number == num %}
+            <li class="page-item active"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
+        {% elif num > context_list.number|add:'-3' and num < context_list.number|add:'3' %}
+            <li class="page-item"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
+        {% endif %}
+      {% endfor %}
+      {% if context_list.has_next %}
+        <li class="page-item">
+             <a class="page-link" href="?page={{context_list.paginator.num_pages}}" aria-label="Next">
+               <span aria-hidden="true">&raquo;</span>
+               <span class="sr-only"> >>> </span>
+             </a>
+        </li>
+      {% endif %}
+  </ul>
+</nav>

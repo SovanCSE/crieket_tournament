@@ -1,0 +1,17 @@
+<div id="id01" class="modal container modal-sm">
+  <form id="form_id" class="modal-content">
+     {% csrf_token %}
+      <div class="card">
+        <div class="card-header">
+          <h4>Delete Team</h4>
+        </div>
+        <div class="card-footer">
+          <p>Are you sure you want to delete this {{delete_item}}?</p>
+       <div class="clearfix mb-2">
+        <a onclick="document.getElementById('id01').style.display='none'" class="btn btn-white">Cancel</a>
+        <button id="deleteteam" type="submit" class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+      </div>
+  </form>
+</div>

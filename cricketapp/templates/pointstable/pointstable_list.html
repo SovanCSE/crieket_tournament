@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block body_content %}
+  <div class="card">
+     <div class="card-header">
+       <div class="row">
+         <div class="col-md-12 text-center">
+           <h4>Points Table</h4>
+         </div>
+       </div>
+      </div>
+      {% if not point_table_details %}
+      <div class="card-body">
+          <div class="row text-center">
+              <div class="col-md-12">
+                  <span>No Points Table record is available
+                      <span class="font-weight-bold">{{team_name}}</span></span>
+              </div>
+          </div>
+      </div>
+    {% else %}
+    <div class="card-body">
+      <table class="table table-bordered table-hover">
+      <thead>
+        <tr >
+            <th scope="col">Team Logo</th>
+            <th scope="col">Team Name</th>
+            <th scope="col">Total Matches</th>
+            <th scope="col">Total Win</th>
+            <th scope="col">Total Lost</th>
+            <th scope="col">Total Draw</th>
+            <th scope="col">Total Point</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for team_point in point_table_details %}
+        <tr>
+            <td> <img  title="view image" data-toggle="tooltip"
+                       onclick="imageclick('{{ team_point.logo_url.url }}')" class="pop"
+                       alt="Team Logo" style="height:50px; weight:50px; cursor:pointer;"
+                       src="{{ team_point.logo_url.url }}"  /></td>
+            <td>{{team_point.name}}</td>
+            <td>{{team_point.total_match}}</td>
+            <td>{{team_point.total_win}}</td>
+            <td>{{team_point.total_loss}}</td>
+            <td>{{team_point.total_draw}}</td>
+            <td>{{team_point.total_point}}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    </div>
+       <!-- Start point for pagination snippet code --->
+      {% if point_table_details.paginator.count > 3 %}
+      <div class="card-footer">
+          <div class="float-right">
+            {% with context_list=point_table_details %}
+              {% if context_list %}
+                 {% include 'common_views/pagination_tamplate.html' %}
+              {% endif %}
+            {% endwith %}
+          </div>
+      </div>
+      {% endif %}
+     <!-- End point for pagination snippet code --->
+{% endif %}
+</div>
+<!-- image zoom in Modal -->
+{% include 'common_views/zoomimage_modal_view.html' %}
+<script>
+function imageclick(imageurl){
+    $('.imagepreview').attr('src', imageurl);
+    $('.imagepreview').attr('width', '100%');
+    $('.imagepreview').attr('height', '100%');
+    $('#imagemodal').modal('show');
+}
+</script>
+{% endblock body_content %}
