@@ -55,6 +55,8 @@ def delete_team(request, id=None):
         except Team.DoesNotExist:
             messages.success(request, f'team data is not available')
             return redirect('team_list')
+    else:
+        return redirect('team_list')
 
 """
 Below method used to get active player list 
@@ -128,6 +130,8 @@ def delete_player(request, id):
         except Team.DoesNotExist:
             messages.success(request, f'player data is not available')
             return redirect('player_list')
+    else:
+        return redirect('player_list')
 
 """
 Below action used to add new match details
@@ -177,6 +181,9 @@ def delete_match(request, pk=None):
         except Matches.DoesNotExist:
             messages.success(request, f'match record is not available')
             return redirect('match_list')
+    else:
+        return redirect('match_list')
+
 """
 Below action used to get all matches history for particular team
 """
